@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ using SchoolApp.MVC.Data;
 
 namespace SchoolApp.MVC.Controllers
 {
+    [Authorize]
+
     public class ClassController : Controller
     {
         private readonly SchoolManagementDbContext _context;
@@ -160,14 +163,14 @@ namespace SchoolApp.MVC.Controllers
             {
                 _context.Classes.Remove(@class);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ClassExists(int id)
         {
-          return (_context.Classes?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Classes?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
